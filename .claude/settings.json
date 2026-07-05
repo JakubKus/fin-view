@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(.env)",
+      "Edit(.env)",
+      "Read(db.sqlite)",
+      "Edit(db.sqlite)",
+      "Bash(cat *.env*)",
+      "Bash(cat *db.sqlite*)",
+      "Bash(head *.env*)",
+      "Bash(head *db.sqlite*)",
+      "Bash(tail *.env*)",
+      "Bash(tail *db.sqlite*)",
+      "Bash(less *.env*)",
+      "Bash(more *.env*)",
+      "Bash(grep *.env*)",
+      "Bash(source *.env*)",
+      "Bash(. *.env*)",
+      "PowerShell(Get-Content *.env*)",
+      "PowerShell(Get-Content *db.sqlite*)",
+      "PowerShell(gc *.env*)",
+      "PowerShell(gc *db.sqlite*)",
+      "PowerShell(cat *.env*)",
+      "PowerShell(cat *db.sqlite*)",
+      "PowerShell(type *.env*)"
+    ]
+  }
+}
