@@ -1,25 +1,28 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { formatNumberWithDecimals } from './utils.ts';
+import { healthApi } from './healthApi.ts';
 
 const initTimestamp = Temporal.Now.instant();
-const PORT = 4000;
+const PORT = process.env.ENVIRONMENT_PORT || 4000;
+const IS_PROD = process.env.NODE_ENV === 'production';
 
 const app = express();
 
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json());
 
-app.get('/health', (_req, res) => {
-  const timestamp = Temporal.Now.instant();
-  res.json({ status: 'healthy', date: timestamp.toLocaleString(), timestamp: timestamp.epochMilliseconds });
-});
+const router = Router();
 
-app.get('/', (_req, res) => {
-  res.json({ hello: 'world' });
-});
+[healthApi].forEach(api => api(router));
+
+app.use(router);
 
 app.listen(PORT, () => {
   const startupDuration = initTimestamp.until(Temporal.Now.instant()).total({ unit: 'milliseconds' });
   const durationWithOneDecimal = formatNumberWithDecimals(startupDuration, 1);
+  const envUrl = IS_PROD ? null : `http://localhost:${PORT}`;
 
-  console.log(`App running on port: ${PORT} (startup took: ${durationWithOneDecimal}ms)`);
+  console.log(`Startup took: ${durationWithOneDecimal}ms`);
+  if (envUrl) {
+    console.log(`App running on: ${envUrl}`);
+  }
 });
