@@ -1,6 +1,7 @@
 import express, { Router } from 'express';
 import { formatNumberWithDecimals } from './utils.ts';
 import { healthApi } from './healthApi.ts';
+import { portfolioPerformanceApi } from './portfolioPerformanceApi.ts';
 
 const initTimestamp = Temporal.Now.instant();
 const PORT = process.env.ENVIRONMENT_PORT || 4000;
@@ -12,7 +13,7 @@ app.use(express.json());
 
 const router = Router();
 
-[healthApi].forEach(api => api(router));
+[portfolioPerformanceApi, healthApi].forEach(api => api(router));
 
 app.use(router);
 
